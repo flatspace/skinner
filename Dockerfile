@@ -1,5 +1,5 @@
 # Use an official Python runtime as a parent image
-FROM python:3.6.1-slim as skinner
+FROM pytorch/pytorch
 
 ARG ENV=prod
 ARG USER=flatspace
