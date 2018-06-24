@@ -1,9 +1,7 @@
 # Use an official Python runtime as a parent image
-FROM pytorch/pytorch
+FROM python:3.6.5-slim-stretch
 
-ARG ENV=prod
 ARG USER=flatspace
-ARG APP_DIR=/opt/skinner
 
 RUN mkdir -p /home/$USER
 
@@ -17,21 +15,16 @@ RUN apt-get update && \
     apt-get install -y curl gcc g++ && \
     apt-get clean && \
     apt-get purge && \
-    pip install --upgrade pip && \
-    pip install -r /opt/requirements/$ENV.txt
+    pip install --upgrade pip
 
+ARG ENV=prod
+
+RUN pip install -r /opt/requirements/$ENV.txt
+
+ARG APP_DIR=/opt/skinner
 COPY . $APP_DIR
-
 RUN chown -R $user:$user $APP_DIR
 
 USER $user
 
 WORKDIR $APP_DIR
-
-#RUN pip install .
-
-EXPOSE 5000
-
-WORKDIR $APP_DIR/skinner
-
-CMD ["python", "skinner.py"]

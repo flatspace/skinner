@@ -1,1 +1,1 @@
--r requirements/prod.txt
+torch==0.4.0
