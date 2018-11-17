@@ -1,11 +1,10 @@
+import gym
 import torch
 import torch.nn as nn
-from torch.autograd import Variable
 import numpy as np
 
 
 class DQN(nn.Module):
-
     def __init__(self, input_shape, n_actions):
         super(DQN, self).__init__()
 
@@ -18,18 +17,23 @@ class DQN(nn.Module):
             nn.ReLU()
         )
 
-        def get_conv_out(shape):
-            o = self.conv(Variable(torch.zeros(1, *shape)))
-            return int(np.prod(o.size()))
+        conv_out_size = self._get_conv_out(input_shape)
 
-        conv_out_size = get_conv_out(input_shape)
         self.fc = nn.Sequential(
             nn.Linear(conv_out_size, 512),
             nn.ReLU(),
             nn.Linear(512, n_actions)
         )
 
-    def forward(self, x):
+    def forward(self, x: torch.Tensor):
         fx = x.float() / 256
         conv_out = self.conv(fx).view(fx.size()[0], -1)
         return self.fc(conv_out)
+
+    def _get_conv_out(self, shape):
+        o = self.conv(torch.zeros(1, *shape))
+        return int(np.prod(o.size()))
+
+
+def create_net(env: gym.Env):
+    return DQN(env.observation_space.shape, env.action_space.n)
