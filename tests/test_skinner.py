@@ -3,8 +3,6 @@
 
 import unittest
 
-from skinner import Skinner
-
 
 class TestSkinner(unittest.TestCase):
 
