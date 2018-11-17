@@ -78,10 +78,3 @@ dist: clean
 
 install: clean
 	python setup.py install
-
-docker-prod:
-	docker build\
-		--file=./Dockerfile \
-		--tag=skinner ./
-	docker run \
-		--name=skinner

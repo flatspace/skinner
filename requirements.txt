@@ -1,1 +1,3 @@
-torch==0.4.0
+bumpversion==0.5.3
+torch
+coverage==4.5.2
