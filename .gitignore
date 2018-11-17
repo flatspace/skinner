@@ -3,8 +3,10 @@
 
 # Distribution / packaging
 venv/
-build/
+dist/
 *.egg
+*.egg*
+build/
 
 # pycharm
 .idea/
